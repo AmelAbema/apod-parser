@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+
+
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: astro_db
+      POSTGRES_USER: useradmin
+      POSTGRES_PASSWORD: qw123321
+      DB_URL: "postgresql://useradmin:qw123321@postgres/astro_db?sslmode=disable"
+
+    ports:
+      - "5432:5432"
+
+
+
+  astro-service:
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+    environment:
+      PORT: "8000"
+      DB_URL: "postgresql://useradmin:qw123321@postgres/astro_db?sslmode=disable"
